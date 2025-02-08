@@ -5,6 +5,7 @@
 const int BUFFER_SIZE = 26;
 const int offset = 1;
 #include <iostream>
+#include <cstring>
 
 static char inputString[] = "ydrsxdladccdclzqhmzqzrztbd"; //this test string should output zestyembeddedmarinarasauce
 
@@ -26,9 +27,15 @@ char numberToLetter(char i){
     return i + 'a';
 }
 
+
 int main(void)
 {
-    //CODE GOES HERE 
-
+    //CODE GOES HERE
+    for (int i = 0; inputString[i] != '\0'; ++i){
+        int num = letterToNumber(inputString[i]);
+        num = (num + offset) % BUFFER_SIZE;
+        char newChar = numberToLetter(num);
+        putc(newChar);
+    }
     putc('\n');
 }
