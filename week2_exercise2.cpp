@@ -39,12 +39,29 @@ void putc_bin(char c){
     for(int i = 0; i < 8; i ++){
         printf("%c", (c>>(7-i) & 1) ? '1' : '0');
     }
-    
+}
+
+unsigned char decrypt(char byte){
+    unsigned char result = 0;
+    //bit 7 6 5 to 2 1 0
+    result |= (byte & 0b11100000) >> 5;
+    //bit 4 to 5
+    result |= (byte & 0b00010000) << 1;
+    //bit 3 to 4
+    result |= (byte & 0b00001000) << 1;
+    //bit 2 1 to 7 6
+    result |= (byte & 0b00000100) << 5;
+    result |= (byte & 0b00000010) << 5;
+    //bit 0 to 3
+    result |= ((byte & 0b00000001) << 3);
+    //flip bits 7 6 4
+    return result ^ 0b11010000;
 }
 
 int main(void)
 {
     //CODE GOES HERE 
-
-    putc('\n');
+    for (int i = 0; inputString[i] != '\0'; ++i){
+        putc(decrypt(inputString[i]));
+    }
 }
