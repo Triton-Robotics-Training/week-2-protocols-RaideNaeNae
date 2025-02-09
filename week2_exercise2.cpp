@@ -50,8 +50,7 @@ unsigned char decrypt(char byte){
     //bit 3 to 4
     result |= (byte & 0b00001000) << 1;
     //bit 2 1 to 7 6
-    result |= (byte & 0b00000100) << 5;
-    result |= (byte & 0b00000010) << 5;
+    result |= (byte & 0b00000110) << 5;
     //bit 0 to 3
     result |= ((byte & 0b00000001) << 3);
     //flip bits 7 6 4
