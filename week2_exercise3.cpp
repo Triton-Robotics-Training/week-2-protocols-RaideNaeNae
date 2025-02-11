@@ -51,8 +51,27 @@ public:
 
 //TOUCH NOTHING ABOVE THIS
 
+void encode(int16_t a, int16_t v, int16_t torq, int8_t temp, uint8_t data[8]){
+    data[0] = (int8_t) (a >> 8);
+    data[1] = (int8_t) (a);
+    data[2] = (int8_t) (v >> 8);
+    data[3] = (int8_t) (v);
+    data[4] = (int8_t) (torq >> 8);
+    data[5] = (int8_t) (torq);
+    data[6] = temp;
+    data[7] = 0;
+}
+
+void decode(uint8_t data[8]){
+    int16_t a = (data[0] << 8) | data[1];
+    int16_t v = (data[2] << 8) | data[3];
+    int16_t torq = (data[4] << 8) | data[5];
+    int8_t temp = data[6];
+    printf("%d %d %d %d", a, v, torq, temp);
+}
+
 int main() {
-    srand(2); //MODIFY THIS TO CHANGE THE READ PACKET TEST CASE
+    srand(4); //MODIFY THIS TO CHANGE THE READ PACKET TEST CASE
     CAN canbus; //usually this has parameters, but since this isn't real and we're running this on a standard compiler, it doesn't
     
     int16_t angle = 0;
@@ -70,6 +89,9 @@ int main() {
     short len_send = 8;
     short id_send = 0x1FF;
     
+    //i wrote this line
+    encode(1300, 2140, 382, 10, data_send);
+    
     uint8_t data_recv[8] = {0,0,0,0,0,0,0,0};
     short len_recv;
     short id_recv;
@@ -85,4 +107,5 @@ int main() {
     // srand(0): 1383, -5114, 27, 85
     // srand(2): 6138, 6719, 38, 65
     // srand(4): 7645, 4083, 124, 86
+    decode(data_recv);
 }
